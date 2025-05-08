@@ -2,8 +2,8 @@ package com.example.paymentservice.controllers;
 
 import com.example.paymentservice.dtos.CreatePaymentLinkRequestDto;
 import com.example.paymentservice.services.PaymentService;
-import com.razorpay.RazorpayException;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/payments")
 public class PaymentController {
 
-    private PaymentService paymentSerice;
+    private PaymentService paymentService;
 
     public PaymentController(PaymentService paymentService) {
-        this.paymentSerice = paymentService;
+        this.paymentService = paymentService;
     }
 
     @PostMapping("/")
-    public String createPaymentLink(CreatePaymentLinkRequestDto createPaymentLinkRequestDto) {
+    public String createPaymentLink(@RequestBody CreatePaymentLinkRequestDto createPaymentLinkRequestDto) {
         String payment = null;
         try{
-            payment = paymentSerice.createPaymentLink(createPaymentLinkRequestDto.getOrderId());
+            payment = paymentService.createPaymentLink(createPaymentLinkRequestDto.getOrderId());
         } catch (Exception e){
             System.out.println("Exception: " + e.getMessage());
         }
